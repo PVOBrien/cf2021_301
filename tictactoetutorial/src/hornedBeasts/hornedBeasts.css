@@ -1,3 +1,7 @@
 img {
-  width: 120px;
+  width: 140px;
+}
+
+.card {
+  float: left;
 }
