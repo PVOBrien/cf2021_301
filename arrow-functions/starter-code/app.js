@@ -197,8 +197,8 @@ console.log(joe.scopeArrow());
 
 // TODO: Write a COMMENT below to answer the following questions.
 // 1. What is "this" when joe.scope() is invoked?
-//
+//    "This" is the window context, as that is where the class is currently.
 // 2. What is "this" when joe.scopeArrow() is invoked?
-//
+//    Undefined
 // 3. Explain why "this" is different when an arrow function is used.
-//
+//    It doesn't know what this is, as arrow functions do not have their own context but take on the context that is present where/when they are called.
