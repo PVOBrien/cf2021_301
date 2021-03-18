@@ -13,7 +13,7 @@ class App extends React.Component {
     this.state = {
       newData: Json,
       displayModal: false,
-      chosenBeast: {} // might be {} instead
+      chosenBeast: {}
     }
   }
 
