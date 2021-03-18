@@ -2,12 +2,9 @@ import React from 'react';
 import Header from './header/header'; // always start with "./"
 import Footer from './footer/footer';
 import Main from './main';
-import HornedBeasts from './hornedBeasts/hornedBeasts';
 import Json from './data.json';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import CardColumns from 'react-bootstrap/CardColumns';
 import ModalPop from './modal.js';
-
 
 class App extends React.Component {
 
@@ -22,7 +19,7 @@ class App extends React.Component {
 
   displayAsModal = (index) => {
     this.setState({
-      favoriteBeast: this.state.newData[index],
+      chosenBeast: this.state.newData[index],
       displayModal: true
     })
   }
@@ -30,7 +27,6 @@ class App extends React.Component {
   handleClose = () => {
     this.setState({ displayModal: false })
   }
-
 
   render() {
     return (
@@ -43,7 +39,7 @@ class App extends React.Component {
         <ModalPop
           show={this.state.displayModal}
           handleClose={this.handleClose}
-          selectedBeast={this.state.chosenBeast}
+          chosenBeast={this.state.chosenBeast}
         />
         <Footer />
       </>

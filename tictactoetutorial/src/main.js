@@ -4,12 +4,6 @@ import CardColumns from 'react-bootstrap/CardColumns';
 import HornedBeasts from './hornedBeasts/hornedBeasts';
 
 class Main extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-
-  //   }
-  // }
 
   render() {
     return (
@@ -23,6 +17,8 @@ class Main extends React.Component {
                 title={theBeast.title}
                 desc={theBeast.description}
                 key={index}
+                index={index}
+                displayAsModal={this.props.displayAsModal}
               />
             </div>
             )

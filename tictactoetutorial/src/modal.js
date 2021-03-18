@@ -5,44 +5,29 @@ import Button from 'react-bootstrap/Button';
 
 class ModalPop extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      show: false
-    };
-    this.showModal = this.showModal.bind(this);
-    this.hideModal = this.hideModal.bind(this);
-  }
-
-hideModal = () => {
-  console.log('bump', this.state);
-  this.setState({show: false});
-}
-
-showModal = () => {
-  console.log('bump', this.state);
-  this.setState({show: true});
-}
-
   render() {
+    console.log(this.props)
     return (
-    <>
-      <Modal.Dialog>
-        <Modal.Header closeButton onClick={this.hideModal}>
-          <Modal.Title>{this.props.imageText}</Modal.Title>
-        </Modal.Header>
+      <>
+        <Modal show={this.props.show} onHide={this.props.handleClose}>
+          <Modal.Dialog>
+            <Modal.Header closeButton onClick={this.hideModal}>
+              <Modal.Title>{this.props.chosenBeast.title}</Modal.Title>
+            </Modal.Header>
 
-        <Modal.Body>
-          <img src={this.props.thePic} alt={this.props.imageText} />
-        </Modal.Body>
+            <Modal.Body>
+              <img src={this.props.chosenBeast.image_url} alt={this.props.imageText} />
+            </Modal.Body>
 
-        <Modal.Footer>
-          <Button variant="secondary">Close</Button>
-          <Button variant="primary">Save changes</Button>
-        </Modal.Footer>
-      </Modal.Dialog>
-    </>
-    )}
+            {/* <Modal.Footer>
+              <Button variant="secondary">Close</Button>
+              <Button variant="primary">Save changes</Button>
+            </Modal.Footer> */}
+          </Modal.Dialog>
+        </Modal>
+      </>
+    )
+  }
 }
 
 export default ModalPop;

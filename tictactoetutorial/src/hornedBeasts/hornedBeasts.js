@@ -4,7 +4,6 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import './hornedBeasts.css';
 import '../modal.js';
-import ModalPop from '../modal.js';
 
 // assets must be imported up above
 
@@ -30,8 +29,8 @@ class HornedBeasts extends React.Component {
     return (
       <>
       <Card className='card' style={{ width: '20rem' }}>
-        <Card.Img variant="top" src={this.props.image}/>
-        <Card.Body onClick={this.turnToModal}>
+        <Card.Img variant="top" src={this.props.image} onClick={this.turnToModal}/>
+        <Card.Body>
           <Card.Title>{this.props.title} clicks: {this.state.timesClicked} times</Card.Title>
           <Card.Text>
             {this.props.desc}
@@ -39,13 +38,6 @@ class HornedBeasts extends React.Component {
           <Button onClick={this.clickCounter} variant="primary">Click 💖 if you like!</Button>
         </Card.Body>
       </Card>
-
-      {/* <ModalPop
-        show={this.state.show}
-        thePic={this.props.image}
-        imageText={this.props.title}
-      /> */}
-
       </>
     )
   }
