@@ -5,7 +5,6 @@ import Modal from 'react-bootstrap/Modal';
 class ModalPop extends React.Component {
 
   render() {
-    console.log(this.props)
     return (
       <>
         <Modal show={this.props.show} onHide={this.props.handleClose}>

@@ -2,8 +2,8 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CardColumns from 'react-bootstrap/CardColumns';
 import HornedBeasts from './hornedBeasts/hornedBeasts';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
+// import Form from 'react-bootstrap/Form';
+// import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown'
 
 class Main extends React.Component {
@@ -24,7 +24,7 @@ class Main extends React.Component {
   thisBool = (e) => this.setState({ isReal: !this.state.isReal });
   updateHornSelect = (e) => {
     this.setState({ hornCount: e});
-    console.log('dropdown selected:', e);
+    // console.log('dropdown selected:', e);
     let narrowedBeasts = [];
     narrowedBeasts = this.props.beastsAll.filter(beast => {
       // console.log('beast', beast.horns);
@@ -39,7 +39,7 @@ class Main extends React.Component {
 
   showOnSubmit = (event) => {
     event.preventdefault();
-    console.log(this.state);
+    // console.log(this.state);
   };
 
   render() {
@@ -60,7 +60,6 @@ class Main extends React.Component {
         </Dropdown>
 
         <CardColumns>
-          {console.log(this.state.filteredBeasts)}
           {this.state.filteredBeasts.map((theBeast, index) => {
             return (
               <div key={index}>

@@ -22,7 +22,6 @@ class HornedBeasts extends React.Component {
 
   turnToModal = () => {
     this.props.displayAsModal(this.props.index);
-    console.log('turnToModal');
   }
 
   render() {
