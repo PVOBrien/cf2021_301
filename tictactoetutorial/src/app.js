@@ -1,36 +1,46 @@
 import React from 'react';
 import Header from './header/header'; // always start with "./"
 import Footer from './footer/footer';
-import HornedBeasts from './hornedBeasts/hornedBeasts';
+import Main from './main';
 import Json from './data.json';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import ModalPop from './modal.js';
 
 class App extends React.Component {
 
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     horns: JSON.parse(Json)
-  //   }
-  // }
+  constructor(props) {
+    super(props);
+    this.state = {
+      newData: Json,
+      displayModal: false,
+      chosenBeast: {}
+    }
+  }
+
+  displayAsModal = (index) => {
+    this.setState({
+      chosenBeast: this.state.newData[index],
+      displayModal: true
+    })
+  }
+
+  handleClose = () => {
+    this.setState({ displayModal: false })
+  }
 
   render() {
     return (
       <>
         <Header />
-        <main>
-          {Json.map((creature, index) => {
-            return (
-              <HornedBeasts
-                title={creature.title}
-                image={creature.image_url}
-                desc={creature.description}
-                />
-            )
-          }
-          )}
-          {/* <HornedBeasts title='Hello' desc='dexc' image='zilch' /> */}
-          {/* <HornedBeasts title={this.state.title} desc={this.state.desc} image={this.state.image} /> */}
-        </main>
+        <Main
+          beastsAll={this.state.newData}
+          displayAsModal={this.displayAsModal}
+        />
+        <ModalPop
+          show={this.state.displayModal}
+          handleClose={this.handleClose}
+          chosenBeast={this.state.chosenBeast}
+        />
         <Footer />
       </>
     )
