@@ -24,24 +24,20 @@ class Forecast extends React.Component {
     }
   }
 
-  // componentDidMount = async () => {
-  //   const SERVER = 'http://localhost:3001';
-
-  //   try {
-  //     const theWeather = await axios.get(`${SERVER}/weather`);
-  //     const weatherData = theWeather.data;
-  //     console.log('here', weatherData);
-  //     this.setState({ list: weatherData, isListReady: true });
-  //   } catch (err) {
-  //     console.log('we have an error!');
-  //     this.setState({ isError: true });
-  //   }
-  // }
+  componentDidMount = async () => {
+    const results = await axios.get(`${process.env.REACT_APP_SERVER}/bananas`);
+    console.log(results.data);
+    const locationResults = await axios.get(`${process.env.REACT_APP_SERVER}/location`);
+    console.log(locationResults.data);
+  }
 
   getLocationInfo = async (e) => {
     e.preventDefault();
     console.log(this.state.searchQuery);
-    const url = `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATION_KEY}&q=${this.state.searchQuery}&format=json`;
+    // const url = `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATION_KEY}&q=${this.state.searchQuery}&format=json`;
+    const url = `${process.env.REACT_APP_SERVER}/location`;
+    // const params
+
     const location = await axios.get(url).catch(error => {
       if (error.response) {
         this.setState({ error: true });
