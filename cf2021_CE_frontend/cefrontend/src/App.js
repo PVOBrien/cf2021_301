@@ -28,8 +28,10 @@ class Forecast extends React.Component {
   }
 
   componentDidMount = async () => {
-    const results = await axios.get(`${process.env.REACT_APP_SERVER}/bananas`);
+    const results = await axios.get(`${process.env.REACT_APP_SERVER}/`);
+    const results2 = await axios.get(`${process.env.REACT_APP_SERVER}/bananas`);
     console.log(results.data);
+    console.log(results2.data);
   }
 
   getLocationInfo = async (e) => {
@@ -56,7 +58,7 @@ class Forecast extends React.Component {
       error: false
     });
     this.getForecastInfo();
-    this.getMovieInfo();
+    // this.getMovieInfo();
   }
 
   getForecastInfo = async (e) => {
@@ -77,7 +79,6 @@ class Forecast extends React.Component {
       const SERVER = process.env.REACT_APP_SERVER;
       const query = { searchOn: this.state.searchQuery };
       const movies = await axios.get(`${SERVER}/movie`, { params: query });
-      console.log('getMovieInfo:', movies.data);
       let moviesArr = movies.data;
       this.setState({ movieList: moviesArr, movieResults: true });
     } catch (error) {
@@ -127,9 +128,7 @@ class Forecast extends React.Component {
         {this.state.movieResults &&
           <>
             <h1>Movies</h1>
-            {console.log('render.mR',this.state.movieList)}
             {this.state.movieList.map((item, idx) => {
-              console.log('movies:', {item});
               return (
                 <div key={idx}>
                   <p>{item.title}</p>
