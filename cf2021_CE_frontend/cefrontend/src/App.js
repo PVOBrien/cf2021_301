@@ -13,12 +13,15 @@ class Forecast extends React.Component {
     this.state = {
       list: [],
       weatherList: [],
+      movieList: [],
       isListReady: false,
       isError: false,
       location: {},
       searchQuery: '',
       imgSrc: '',
       displayResults: false,
+      weatherResults: false,
+      movieResults: false,
       error: false,
       theMessage: ''
     }
@@ -27,31 +30,24 @@ class Forecast extends React.Component {
   componentDidMount = async () => {
     const results = await axios.get(`${process.env.REACT_APP_SERVER}/bananas`);
     console.log(results.data);
-    // const locationResults = await axios.get(`${process.env.REACT_APP_SERVER}/location`);
-    // console.log(locationResults.data);
   }
 
   getLocationInfo = async (e) => {
     e.preventDefault();
-    console.log('searchQ: ', this.state.searchQuery);
-    // const url = `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATION_KEY}&q=${this.state.searchQuery}&format=json`;
-    const url = `${process.env.REACT_APP_SERVER}/location`;
-    // const params = { cityName: this.state.searchQuery};
-
-    const location = await axios.get(url, { params: { cityName: this.state.searchQuery } })
-      .catch(error => {
-        if (error.response) {
-          this.setState({ error: true });
-          // console.log(error.response);
-          return;
-        } else if (error.request) {
-          console.log(error.request);
-          return;
-        } else {
-          console.log('you survived.')
-        }
+    const url = `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATION_KEY}&q=${this.state.searchQuery}&format=json`;
+    const location = await axios.get(url).catch(error => {
+      if (error.response) {
+        this.setState({ error: true });
+        console.log(error.response.data); // error.response.status || error.response.headers
         return;
-      });
+      } else if (error.request) {
+        console.log(error.request);
+        return;
+      } else {
+        console.log('you survived.')
+      }
+      return;
+    });
     const locationArray = location.data;
     this.setState({
       location: locationArray[0],
@@ -60,27 +56,39 @@ class Forecast extends React.Component {
       error: false
     });
     this.getForecastInfo();
+    this.getMovieInfo();
   }
 
   getForecastInfo = async (e) => {
     try {
-      // e.preventDefault();
       const SERVER = process.env.REACT_APP_SERVER; // uncertain this is it.
       const query = { lat: this.state.location.lat, lon: this.state.location.lon };
-      // console.log(query);
-      const weather = await axios.get(`${SERVER}/weather/`, { params: query });
-      console.log('here');
+      const weather = await axios.get(`${SERVER}/weather`, { params: query });
       const weatherArr = weather.data;
-      this.setState({ weatherList: weatherArr });
+      this.setState({ weatherList: weatherArr, weatherResults: true });
     } catch (error) {
-      console.log('Error:', error) // what does this do?
+      this.setState({ error: true });
+      // console.log('Error:', error) // what does this do?
+    }
+  }
+
+  getMovieInfo = async (e) => {
+    try {
+      const SERVER = process.env.REACT_APP_SERVER;
+      const query = { searchOn: this.state.searchQuery };
+      const movies = await axios.get(`${SERVER}/movie`, { params: query });
+      console.log('getMovieInfo:', movies.data);
+      let moviesArr = movies.data;
+      this.setState({ movieList: moviesArr, movieResults: true });
+    } catch (error) {
+      this.setState({ error: true });
+      // console.log('Error:', error)
     }
   }
 
   render() {
     return (
       <>
-
         {this.state.error &&
           <>
             <Alert id="alert" variant={'warning'}>What happened?!</Alert>
@@ -113,6 +121,37 @@ class Forecast extends React.Component {
                 </Card.Text> */}
               </Card.Body>
             </Card>
+          </>
+        }
+
+        {this.state.movieResults &&
+          <>
+            <h1>Movies</h1>
+            {console.log('render.mR',this.state.movieList)}
+            {this.state.movieList.map((item, idx) => {
+              console.log('movies:', {item});
+              return (
+                <div key={idx}>
+                  <p>{item.title}</p>
+                  <img src={item.image_url} alt={item.title}></img>
+                  <p>{item.overview}</p>
+                </div>
+              )
+            })}
+          </>
+        }
+
+        {this.state.weatherResults &&
+          <>
+            <h2>Weather</h2>
+            {this.state.weatherList.map((item, idx) => {
+              return (
+                <div key={idx}>
+                  <p>{item.description}</p>
+                  <p>{item.date}</p>
+                </div>
+              )
+            })}
           </>
         }
 
