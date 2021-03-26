@@ -27,32 +27,31 @@ class Forecast extends React.Component {
   componentDidMount = async () => {
     const results = await axios.get(`${process.env.REACT_APP_SERVER}/bananas`);
     console.log(results.data);
-    const locationResults = await axios.get(`${process.env.REACT_APP_SERVER}/location`);
-    console.log(locationResults.data);
+    // const locationResults = await axios.get(`${process.env.REACT_APP_SERVER}/location`);
+    // console.log(locationResults.data);
   }
 
   getLocationInfo = async (e) => {
     e.preventDefault();
-    console.log(this.state.searchQuery);
+    console.log('searchQ: ', this.state.searchQuery);
     // const url = `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATION_KEY}&q=${this.state.searchQuery}&format=json`;
     const url = `${process.env.REACT_APP_SERVER}/location`;
-    // const params
+    // const params = { cityName: this.state.searchQuery};
 
-    const location = await axios.get(url).catch(error => {
-      if (error.response) {
-        this.setState({ error: true });
-        console.log(error.response.data);
-        console.log(error.response.status);
-        console.log(error.response.headers);
+    const location = await axios.get(url, { params: { cityName: this.state.searchQuery } })
+      .catch(error => {
+        if (error.response) {
+          this.setState({ error: true });
+          // console.log(error.response);
+          return;
+        } else if (error.request) {
+          console.log(error.request);
+          return;
+        } else {
+          console.log('you survived.')
+        }
         return;
-      } else if (error.request) {
-        console.log(error.request);
-        return;
-      } else {
-        console.log('you survived.')
-      }
-      return;
-    });
+      });
     const locationArray = location.data;
     this.setState({
       location: locationArray[0],
@@ -68,9 +67,9 @@ class Forecast extends React.Component {
       // e.preventDefault();
       const SERVER = process.env.REACT_APP_SERVER; // uncertain this is it.
       const query = { lat: this.state.location.lat, lon: this.state.location.lon };
-      console.log(query);
+      // console.log(query);
       const weather = await axios.get(`${SERVER}/weather/`, { params: query });
-      console.log( 'here');
+      console.log('here');
       const weatherArr = weather.data;
       this.setState({ weatherList: weatherArr });
     } catch (error) {
