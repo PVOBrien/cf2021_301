@@ -65,6 +65,7 @@ class Forecast extends React.Component {
     try {
       const SERVER = process.env.REACT_APP_SERVER; // uncertain this is it.
       const query = { lat: this.state.location.lat, lon: this.state.location.lon };
+      console.log('getForecastInfo');
       const weather = await axios.get(`${SERVER}/weather`, { params: query });
       const weatherArr = weather.data;
       this.setState({ weatherList: weatherArr, weatherResults: true });
