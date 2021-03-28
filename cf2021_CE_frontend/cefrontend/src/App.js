@@ -2,28 +2,27 @@ import React from 'react';
 import './App.css';
 import axios from "axios";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import Alert from 'react-bootstrap/Alert';
-import Card from 'react-bootstrap/Card';
-import Carousel from 'react-bootstrap/Carousel';
 import WeatherComp from './components/weather';
+import MoviesComponentized from './components/movieMove';
+import LocationComponent from './components/locationComp';
+
+import { Form, Button, Alert } from 'react-bootstrap';
 
 class Forecast extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      location: {},
       list: [],
       weatherList: [],
       movieList: [],
       isError: false,
-      location: {},
-      searchQuery: '',
-      imgSrc: '',
       displayResults: false,
       weatherResults: false,
       movieResults: false,
       error: false,
+      searchQuery: '',
+      imgSrc: '',
       theMessage: ''
     }
   }
@@ -66,10 +65,8 @@ class Forecast extends React.Component {
     try {
       const SERVER = process.env.REACT_APP_SERVER; // uncertain this is it.
       const query = { lat: this.state.location.lat, lon: this.state.location.lon };
-      // console.log('getForecastInfo');
       const weather = await axios.get(`${SERVER}/weather`, { params: query });
       const weatherArr = weather.data;
-      console.log({ weatherArr })
       this.setState({ weatherList: weatherArr, weatherResults: true });
     } catch (error) {
       this.setState({ error: true });
@@ -85,7 +82,6 @@ class Forecast extends React.Component {
       this.setState({ movieList: moviesArr, movieResults: true });
     } catch (error) {
       this.setState({ error: true });
-      // console.log('Error:', error)
     }
   }
 
@@ -108,65 +104,17 @@ class Forecast extends React.Component {
         </Form>
 
         {this.state.displayResults &&
-          <>
-            <h2>{this.state.location.display_name}</h2>
-            <Card style={{
-              width: '24rem',
-              padding: '5px',
-              textAlign: 'center'
-            }}>
-              <Card.Img variant="top" src={this.state.imgSrc} />
-              <Card.Body>
-                <Card.Title>{this.state.searchQuery}</Card.Title>
-                {/* <Card.Text>
-                  Some quick example text to build on the card title and make up the bulk of
-                  the card's content.
-                </Card.Text> */}
-              </Card.Body>
-            </Card>
-          </>
+          <LocationComponent
+            theLocation={this.state.location}
+            theImage={this.state.imgSrc}
+            theName={this.state.searchQuery}
+          />
         }
 
-        {this.state.movieResults &&
-          <>
-            <p>Movies</p>
-            <Carousel fade wrap='true'>
-              {this.state.movieList.map((item, idx) => {
-                return (
-                  <Carousel.Item>
-                    <img
-                      className="d-block w-100"
-                      src={item.image_url}
-                      alt={item.title}
-                    />
-                    <Carousel.Caption>
-                      {/* <h3>{item.title}</h3> */}
-                      <p>{item.overview}</p>
-                    </Carousel.Caption>
-                  </Carousel.Item>
-                )
-              })}
-            </Carousel>
-          </>
+        {this.state.movieResults && <MoviesComponentized moviesToList={this.state.movieList} />
         }
 
-        {this.state.weatherResults &&
-
-        <WeatherComp theWeather={this.state.weatherList}/>
-          // <>
-          //   <h3>Weather</h3>
-          //   <ListGroup variant="flush">
-          //     {this.state.weatherList.map((item, idx) => {
-          //       return (
-          //         <ListGroup.Item disabled className='listitem'>
-          //           {`On ${item.time} expect ${item.forecast}`}
-          //         </ListGroup.Item>
-          //       )
-          //     })}
-          //   </ListGroup>
-          // </>
-        }
-
+        {this.state.weatherResults && <WeatherComp theWeather={this.state.weatherList} />}
       </>
     );
   }

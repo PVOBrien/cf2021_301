@@ -11,7 +11,7 @@ class WeatherComp extends React.Component{
       <ListGroup variant="flush">
         {this.props.theWeather.map((item, idx) => {
           return (
-            <ListGroup.Item disabled className='listitem'>
+            <ListGroup.Item disabled className='listitem' key={idx}>
               {`On ${item.time} expect ${item.forecast}`}
             </ListGroup.Item>
           )
