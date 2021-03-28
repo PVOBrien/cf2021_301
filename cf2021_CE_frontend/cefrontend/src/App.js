@@ -6,6 +6,8 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 import Card from 'react-bootstrap/Card';
+import Carousel from 'react-bootstrap/Carousel';
+import WeatherComp from './components/weather';
 
 class Forecast extends React.Component {
   constructor(props) {
@@ -14,7 +16,6 @@ class Forecast extends React.Component {
       list: [],
       weatherList: [],
       movieList: [],
-      isListReady: false,
       isError: false,
       location: {},
       searchQuery: '',
@@ -128,53 +129,44 @@ class Forecast extends React.Component {
 
         {this.state.movieResults &&
           <>
-            <h1>Movies</h1>
-            {this.state.movieList.map((item, idx) => {
-              return (
-                <div key={idx}>
-                  <p>{item.title}</p>
-                  <img src={item.image_url} alt={item.title}></img>
-                  <p>{item.overview}</p>
-                </div>
-              )
-            })}
+            <p>Movies</p>
+            <Carousel fade wrap='true'>
+              {this.state.movieList.map((item, idx) => {
+                return (
+                  <Carousel.Item>
+                    <img
+                      className="d-block w-100"
+                      src={item.image_url}
+                      alt={item.title}
+                    />
+                    <Carousel.Caption>
+                      {/* <h3>{item.title}</h3> */}
+                      <p>{item.overview}</p>
+                    </Carousel.Caption>
+                  </Carousel.Item>
+                )
+              })}
+            </Carousel>
           </>
         }
 
-        {console.log(this.state.weatherList)}
         {this.state.weatherResults &&
-          <>
-            <h2>Weather</h2>
-            {this.state.weatherList.map((item, idx) => {
-              return (
-                <div key={idx}>
-                  <p>{item.forecast}</p>
-                  <p>{item.time}</p>
-                </div>
-              )
-            })}
-          </>
+
+        <WeatherComp theWeather={this.state.weatherList}/>
+          // <>
+          //   <h3>Weather</h3>
+          //   <ListGroup variant="flush">
+          //     {this.state.weatherList.map((item, idx) => {
+          //       return (
+          //         <ListGroup.Item disabled className='listitem'>
+          //           {`On ${item.time} expect ${item.forecast}`}
+          //         </ListGroup.Item>
+          //       )
+          //     })}
+          //   </ListGroup>
+          // </>
         }
 
-        <div className="App">
-          <header className="App-header">
-            {this.state.isListReady ?
-              <>
-                {this.state.list.map((item, idx) => {
-                  return (
-                    <div key={idx} className='weather'>
-                      <p>{item.date}</p>
-                      <p>{item.description}</p>
-                    </div>
-                  )
-                })}
-              </>
-              :
-              <>
-              </>
-            }
-          </header>
-        </div >
       </>
     );
   }
