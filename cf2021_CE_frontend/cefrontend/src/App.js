@@ -58,20 +58,20 @@ class Forecast extends React.Component {
       error: false
     });
     this.getForecastInfo();
-    // this.getMovieInfo();
+    this.getMovieInfo();
   }
 
   getForecastInfo = async (e) => {
     try {
       const SERVER = process.env.REACT_APP_SERVER; // uncertain this is it.
       const query = { lat: this.state.location.lat, lon: this.state.location.lon };
-      console.log('getForecastInfo');
+      // console.log('getForecastInfo');
       const weather = await axios.get(`${SERVER}/weather`, { params: query });
       const weatherArr = weather.data;
+      console.log({ weatherArr })
       this.setState({ weatherList: weatherArr, weatherResults: true });
     } catch (error) {
       this.setState({ error: true });
-      // console.log('Error:', error) // what does this do?
     }
   }
 
@@ -141,14 +141,15 @@ class Forecast extends React.Component {
           </>
         }
 
+        {console.log(this.state.weatherList)}
         {this.state.weatherResults &&
           <>
             <h2>Weather</h2>
             {this.state.weatherList.map((item, idx) => {
               return (
                 <div key={idx}>
-                  <p>{item.description}</p>
-                  <p>{item.date}</p>
+                  <p>{item.forecast}</p>
+                  <p>{item.time}</p>
                 </div>
               )
             })}
