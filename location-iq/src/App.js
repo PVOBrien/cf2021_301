@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Card from 'react-bootstrap/Card';
 import Alert from 'react-bootstrap/Alert';
 
@@ -36,12 +37,12 @@ class App extends React.Component {
       }
       return;
     });
-
     const locationArray = location.data;
     this.setState({
       location: locationArray[0],
       displayResults: true,
-      imgSrc: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATION_KEY}&center=${locationArray[0].lat},${locationArray[0].lon}&zoom=13`
+      imgSrc: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATION_KEY}&center=${locationArray[0].lat},${locationArray[0].lon}&zoom=13`,
+      error: false
     });
   }
 
@@ -57,10 +58,9 @@ class App extends React.Component {
 
         {this.state.error &&
           <>
-            <Alert variant={'warning'}>
-              This is an alert—check it out!
+            <Alert id="alert" variant={'warning'}>
+              Where are we? Did you look for the right place?
             </Alert>
-));
           </>
         }
 
@@ -69,8 +69,8 @@ class App extends React.Component {
           <>
             <h2>{this.state.location.display_name}</h2>
             <Card style={{
-              width: '12r  em',
-              padding: '10px',
+              width: '24rem',
+              padding: '5px',
               textAlign: 'center'
             }}>
               <Card.Img variant="top" src={this.state.imgSrc} />

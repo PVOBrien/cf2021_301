@@ -1,0 +1,24 @@
+* {
+  text-align: center;
+  width: auto;
+  margin: auto;
+}
+
+form {
+  margin: 25px 0 0 0;
+}
+.App-link {
+  color: #61dafb;
+}
+
+img {
+  max-width: 400px;
+}
+
+.alert-warning {
+  max-width: 400px;
+}
+
+.listitem {
+  float:right;
+}
