@@ -111,8 +111,7 @@ class Forecast extends React.Component {
           />
         }
 
-        {this.state.movieResults && <MoviesComponentized moviesToList={this.state.movieList} />
-        }
+        {this.state.movieResults && <MoviesComponentized moviesToList={this.state.movieList} />}
 
         {this.state.weatherResults && <WeatherComp theWeather={this.state.weatherList} />}
       </>
