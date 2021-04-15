@@ -102,8 +102,8 @@ class Forecast extends React.Component {
           </Form.Group>
           <Button variant="primary" type="submit">Submit</Button>
         </Form>
-
         {this.state.displayResults &&
+
           <LocationComponent
             theLocation={this.state.location}
             theImage={this.state.imgSrc}
